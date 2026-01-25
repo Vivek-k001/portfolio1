@@ -417,7 +417,7 @@ section {
 /* --- CONTAINER --- */
 .slider-container {
     position: relative;
-    width: 700px;
+    width: 100%;
     height: 400px;
     /* Changed from 500000px to 1000px for better 3D depth */
     perspective: 5000px; 
