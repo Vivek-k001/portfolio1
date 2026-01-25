@@ -37,10 +37,9 @@ themeBtn.addEventListener('click', () => {
 });
 
 
-
-
-
-//img slider js code
+// ==========================================
+// 3D IMAGE SLIDER LOGIC (Now with Touch!)
+// ==========================================
 document.addEventListener('DOMContentLoaded', () => {
     const container = document.querySelector('.slider-container');
     const slider = document.querySelector('.slider');
@@ -57,12 +56,15 @@ document.addEventListener('DOMContentLoaded', () => {
     const dragSpeed = 0.1;   // Sensitivity
     const friction = 0.05;   // Smoothness of the return to auto-spin
 
+    // --- MOUSE EVENTS (Laptop/Desktop) ---
+    
     // 1. MOUSE DOWN
     container.addEventListener('mousedown', (e) => {
         isDragging = true;
         startX = e.clientX;
         lastX = e.clientX;
         velocity = 0; // Stop auto-spin immediately on grab
+        container.style.cursor = 'grabbing'; // Visual cue
     });
 
     // 2. MOUSE MOVE
@@ -79,9 +81,40 @@ document.addEventListener('DOMContentLoaded', () => {
     // 3. MOUSE UP
     window.addEventListener('mouseup', () => {
         isDragging = false;
+        container.style.cursor = 'grab'; // Reset cursor
     });
 
-    // 4. ANIMATION LOOP
+    // --- TOUCH EVENTS (Mobile/Tablet) ---
+
+    // 1. TOUCH START
+    container.addEventListener('touchstart', (e) => {
+        isDragging = true;
+        // e.touches[0] gets the first finger on screen
+        startX = e.touches[0].clientX;
+        lastX = e.touches[0].clientX;
+        velocity = 0;
+    }, { passive: true });
+
+    // 2. TOUCH MOVE
+    window.addEventListener('touchmove', (e) => {
+        if (!isDragging) return;
+        
+        const x = e.touches[0].clientX;
+        const diff = x - lastX;
+        
+        // Update physics
+        velocity = diff * dragSpeed;
+        currentRotation += velocity;
+        slider.style.transform = `rotateY(${currentRotation}deg)`;
+        lastX = x;
+    }, { passive: true });
+
+    // 3. TOUCH END
+    window.addEventListener('touchend', () => {
+        isDragging = false;
+    });
+
+    // --- ANIMATION LOOP ---
     function animate() {
         requestAnimationFrame(animate);
 
@@ -96,7 +129,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Start the loop
     animate();
 
-    // 5. WHEEL SUPPORT
+    // --- WHEEL SUPPORT ---
     container.addEventListener('wheel', (e) => {
         e.preventDefault();
         const scrollForce = e.deltaY * 0.05; 
