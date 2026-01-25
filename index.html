@@ -1,0 +1,281 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RGB Portfolio</title>
+    <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+
+    <button class="theme-toggle" id="themeToggle" aria-label="Toggle Theme">
+        <svg class="icon sun" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <circle cx="12" cy="12" r="5"></circle>
+            <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
+        </svg>
+        <svg class="icon moon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+            <path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"></path>
+        </svg>
+    </button>
+
+    <nav class="navbar-container">
+        <div class="ios-glass-island">
+            <div class="nav-track">
+                <button class="dot active" onclick="scrollToSection(0)">
+                    <span class="label">Home</span>
+                </button>
+                <button class="dot" onclick="scrollToSection(1)">
+                    <span class="label">Work</span>
+                </button>
+                <button class="dot" onclick="scrollToSection(2)">
+                    <span class="label">Skills</span>
+                </button>
+                <button class="dot" onclick="scrollToSection(3)">
+                    <span class="label">Design</span>
+                </button>
+                <button class="dot" onclick="scrollToSection(4)">
+                    <span class="label">Edu</span>
+                </button>
+                <button class="dot" onclick="scrollToSection(5)">
+                    <span class="label">Certs</span>
+                </button>
+                <button class="dot" onclick="scrollToSection(6)">
+                    <span class="label">About</span>
+                </button>
+                <button class="dot" onclick="scrollToSection(7)">
+                    <span class="label">Footer</span>
+                </button>
+            </div>
+        </div>
+    </nav>
+
+    <section id="section-0" class="hero-section-split">
+        <div class="hero-content-left block">
+            <div class="greeting">
+                <h1>Hello !!</h1>
+                <h1>I'm Vivek</h1>
+            </div>
+            <h2>Creative Developer</h2>
+            <p class="sub-text">Fullstack web & Flutter Dev</p>
+            
+            <button class="cta-btn edu-btn" onclick="scrollToSection(4)">About My Education</button>
+            
+            <div class="social-icons">
+                <a href="#" class="social-icon" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+                <a href="#" class="social-icon" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="social-icon" aria-label="GitHub"><i class="fab fa-github"></i></a>
+                <a href="#" class="social-icon" aria-label="X (Twitter)"><i class="fab fa-x-twitter"></i></a>
+            </div>
+        </div>
+        
+        <div class="hero-content-right block">
+            <div class="profile-photo-container">
+                <div class="profile-photo" style="background-image: url('img1.jpg');"></div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-1" class="content-section">
+        <div class="section-header block">
+            <h2>Selected Work</h2>
+        </div>
+        
+        <div class="project-grid">
+            <div class="rgb-card card">
+                <h3>Neon Finance</h3>
+                <p>A futuristic fintech dashboard featuring real-time data visualization and glowing UI components.</p>
+            </div>
+
+            <div class="rgb-card card">
+                <h3>Zenith AI</h3>
+                <p>Generative AI interface designed for creative professionals with adaptive dark mode support.</p>
+            </div>
+
+            <div class="rgb-card card">
+                <h3>Echo Commerce</h3>
+                <p>Headless Shopify storefront built with Next.js, focusing on speed and micro-interactions.</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-2" class="content-section">
+        <div class="section-header block">
+            <h2>Programming Languages & Frameworks</h2>
+        </div>
+        <div class="project-grid">
+            <div class="rgb-card card ">
+                <h3>JavaScript / TypeScript</h3>
+                <p>Modern ES6+, Node.js, React, Next.js</p>
+            </div>
+            <div class="card rgb-card ">
+                <h3>Python</h3>
+                <p>Django, Flask, Data Analysis</p>
+            </div>
+            <div class="card rgb-card ">
+                <h3>Flutter / Dart</h3>
+                <p>Cross-platform mobile app development</p>
+            </div>
+            <div class="card rgb-card ">
+                <h3>HTML & CSS</h3>
+                <p>Semantic HTML5, Modern CSS3, Tailwind, SCSS</p>
+            </div>
+            <div class="card rgb-card ">
+                <h3>Backend & DB</h3>
+                <p>SQL (PostgreSQL), NoSQL (MongoDB), REST & GraphQL APIs</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-3" class="content-section">
+        <!--
+        <div class="section-header block">
+            <h2>Designing & Editing</h2>
+        </div>
+        <div class="project-grid">
+            <div class="rgb-card card">
+            <h3>UI/UX Design</h3>
+            <p>Figma, Adobe XD, User Research, Wireframing</p>
+            </div>
+            <div class="rgb-card card">
+            <h3>Graphic Design</h3>
+            <p>Adobe Photoshop, Illustrator</p>
+            </div>
+            <div class="rgb-card card">
+            <h3>Video Editing</h3>
+            <p>Adobe Premiere Pro, After Effects</p>
+            </div>
+        </div>
+        -->
+
+
+<div class="slider-container">
+        <div class="slider">
+            <div class="slide">
+            <img src="1.png" alt="1">
+            </div>
+            <div class="slide">
+            <img src="2.png" alt="2">
+            </div>
+            <div class="slide">
+            <img src="3.png" alt="3">
+            </div>
+            <div class="slide">
+            <img src="4.png" alt="4">
+            </div>
+            <div class="slide">
+            <img src="5.png" alt="5">
+            </div>
+            <div class="slide">
+            <img src="6.png" alt="6">
+            </div>
+            <div class="slide">
+            <img src="7.png" alt="7">
+            </div>
+            <div class="slide">
+            <img src="8.png" alt="8">
+            </div>
+        </div>
+    </div>
+
+
+    </section>
+
+    <section id="section-4" class="content-section">
+        <div class="section-header block">
+            <h2>Education</h2>
+        </div>
+        <div class="timeline-container block">
+            <div class="timeline-item">
+                <div class="timeline-content rgb-card card">
+                    <span class="date">2020 - 2024</span>
+                    <h3>Bachelor of Technology in Computer Science</h3>
+                    <p>University of Technology</p>
+                    <p>Relevant Coursework: Data Structures, Algorithms, Web Development, Database Management.</p>
+                </div>
+            </div>
+            <div class="timeline-item">
+                <div class="timeline-content rgb-card card">
+                    <span class="date">2018 - 2020</span>
+                    <h3>Higher Secondary Education</h3>
+                    <p>City Junior College</p>
+                    <p>Major in Science (Physics, Chemistry, Mathematics).</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-5" class="content-section">
+        <div class="section-header block">
+            <h2>Certificates</h2>
+        </div>
+        <div class="project-grid">
+            <div class="rgb-card card ">
+                <h3>Full Stack Web Development</h3>
+                <p>Issued by Udemy</p>
+            </div>
+            <div class="rgb-card card">
+                <h3>Google UX Design Professional Certificate</h3>
+                <p>Issued by Coursera</p>
+            </div>
+            <div class="rgb-card card">
+                <h3>Flutter & Dart - The Complete Guide</h3>
+                <p>Issued by Udemy</p>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-6" class="about-section">
+        <div class="big-text-container block">
+            <h1 class="giant-text">UI-UX<br>DESIGNER</h1>
+        </div>
+        <div class="about-content block">
+            <p>I focus on the space between design and engineering. I believe that the difference between a good app and a great app lies in the physics of its animations.</p>
+            <div class="stats-row">
+                <div class="stat">
+                    <h3>1+</h3>
+                    <span>Years Exp</span>
+                </div>
+                <div class="stat">
+                    <h3>4+</h3>
+                    <span>Projects</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="section-7" class="footer-modern">
+        <div class="footer-top block">
+            <div class="footer-headline">
+                <h3>Experience liftoff</h3>
+            </div>
+            <div class="footer-columns">
+                <div class="f-col">
+                    <h4>Product</h4>
+                    <a href="#">Download</a>
+                    <a href="#">Product</a>
+                    <a href="#">Docs</a>
+                </div>
+                <div class="f-col">
+                    <h4>Resources</h4>
+                    <a href="#">Blog</a>
+                    <a href="#">Pricing</a>
+                    <a href="#">Use Cases</a>
+                </div>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <div class="footer-logo">
+                <h2>Portfolio.</h2> 
+            </div>
+            <div class="footer-legal">
+                <a href="#">About Me</a>
+                <a href="#">Privacy</a>
+                <a href="#">Terms</a>
+            </div>
+        </div>
+    </section>
+
+    <script src="script.js"></script>
+</body>
+</html>

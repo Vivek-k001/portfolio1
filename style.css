@@ -1,0 +1,476 @@
+/* --- 1. Global Variables & Reset --- */
+@property --angle {
+    syntax: "<angle>";
+    initial-value: 0deg;
+    inherits: false;
+}
+
+:root {
+    /* DARK THEME (Default) */
+    --bg-color: #0b0d15;
+    --text-color: #ffffff;
+    --text-secondary: #a2a5b3;
+    --card-bg: #1c1f2b;
+    --glass-bg: rgba(80, 80, 80, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --nav-track: rgba(0, 0, 0, 0.2);
+    --dot-inactive: rgba(255, 255, 255, 0.2);
+    --dot-active-bg: #ffffff;
+    --dot-text: #000000;
+    --hero-gradient: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #0b0d15 70%);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="light"] {
+    /* LIGHT THEME OVERRIDES */
+    --bg-color: #f2f2f7; 
+    --text-color: #1c1c1e;
+    --text-secondary: #636366;
+    --card-bg: #ffffff;
+    --glass-bg: rgba(255, 255, 255, 0.65);
+    --glass-border: rgba(255, 255, 255, 0.4);
+    --nav-track: rgba(0, 0, 0, 0.05);
+    --dot-inactive: rgba(0, 0, 0, 0.2);
+    --dot-active-bg: #000000;
+    --dot-text: #ffffff;
+    --hero-gradient: radial-gradient(circle at 50% 50%, #ffffff 0%, #e5e5ea 80%);
+    --shadow-color: rgba(0, 0, 0, 0.1);
+}
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-color);
+    font-family: 'Poppins', -apple-system, sans-serif;
+    scroll-behavior: smooth;
+    overflow-x: hidden;
+    transition: background-color 0.5s ease, color 0.5s ease;
+}
+
+/* --- 2. Theme Toggle --- */
+.theme-toggle {
+    position: fixed;
+    top: 25px; 
+    right: 25px; 
+    z-index: 1100;
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    background: var(--glass-bg);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: transform 0.2s, background-color 0.3s;
+}
+.theme-toggle:hover { transform: scale(1.1); }
+.theme-toggle .icon { width: 24px; height: 24px; position: absolute; transition: all 0.5s; }
+.theme-toggle .sun { opacity: 1; transform: rotate(0deg) scale(1); color: #fff; }
+.theme-toggle .moon { opacity: 0; transform: rotate(90deg) scale(0); color: #000; }
+[data-theme="light"] .theme-toggle .sun { opacity: 0; transform: rotate(-90deg) scale(0); }
+[data-theme="light"] .theme-toggle .moon { opacity: 1; transform: rotate(0deg) scale(1); }
+
+/* --- 3. Navbar --- */
+.navbar-container {
+    position: fixed;
+    top: 25px;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    z-index: 1000;
+    pointer-events: none;
+}
+.ios-glass-island {
+    pointer-events: auto;
+    padding: 8px;
+    background: var(--glass-bg);
+    backdrop-filter: blur(35px);
+    -webkit-backdrop-filter: blur(35px);
+    border: 1px solid var(--glass-border);
+    border-radius: 60px;
+    box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+}
+.nav-track {
+    display: flex;
+    align-items: center;
+    height: 50px;
+    padding: 0 25px; /* Reduced padding for more dots */
+    gap: 10px; /* Reduced gap for more dots */
+    background: var(--nav-track);
+    border-radius: 40px;
+}
+.dot {
+    height: 36px;
+    border: none;
+    border-radius: 20px;
+    background-color: var(--dot-inactive);
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    overflow: hidden;
+    transition: width 0.5s cubic-bezier(0.34, 1.56, 0.64, 1), background-color 0.3s;
+    width: 12px; /* Slightly smaller resting width */
+}
+.dot:hover { background-color: rgba(128, 128, 128, 0.3); }
+.dot.active {
+    width: 90px; /* Slightly smaller active width */
+    background-color: var(--dot-active-bg);
+    box-shadow: 0 0 20px rgba(0,0,0,0.1);
+}
+.dot .label {
+    font-size: 13px;
+    font-weight: 600;
+    color: var(--dot-text);
+    opacity: 0;
+    white-space: nowrap;
+    transform: translateY(5px);
+    transition: all 0.2s ease;
+}
+.dot.active .label { opacity: 1; transform: translateY(0); transition-delay: 0.1s; }
+
+/* --- 4. Sections --- */
+section {
+    min-height: 100vh;
+    padding: 120px 20px 60px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* --- Hero Section (Redesigned Split Layout) --- */
+.hero-section-split {
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    text-align: left;
+    background: var(--hero-gradient);
+    padding: 140px 5% 60px;
+    gap: 40px;
+}
+
+.hero-content-left {
+    max-width: 500px;
+}
+
+.hero-content-left .greeting h1 {
+    font-size: 4rem;
+    font-weight: 800;
+    line-height: 1.1;
+    color: var(--text-color);
+    margin: 0;
+}
+
+.hero-content-left h2 {
+    font-size: 2rem;
+    margin-top: 20px;
+    background: linear-gradient(to right, var(--text-color), var(--text-secondary));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.hero-content-left .sub-text {
+    font-size: 1.2rem;
+    color: var(--text-secondary);
+    margin-top: 10px;
+}
+
+.edu-btn {
+    margin-top: 30px;
+    padding: 12px 30px;
+    background: var(--text-color);
+    color: var(--bg-color);
+    border: none;
+    border-radius: 30px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: transform 0.2s;
+    box-shadow: 0 4px 15px var(--shadow-color);
+}
+.edu-btn:hover { transform: translateY(-3px); }
+
+.social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 30px;
+}
+
+.social-icon {
+    width: 45px;
+    height: 45px;
+    border-radius: 12px;
+    background: var(--card-bg);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    color: var(--text-color);
+    font-size: 1.3rem;
+    text-decoration: none;
+    transition: all 0.3s ease;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 4px 10px var(--shadow-color);
+}
+
+.social-icon:hover {
+    transform: translateY(-5px);
+    background: var(--text-color);
+    color: var(--bg-color);
+}
+
+/* Profile Photo */
+.profile-photo-container {
+    position: relative;
+    width: 350px;
+    height: 400px;
+}
+.profile-photo {
+    width: 100%;
+    height: 100%;
+    background-size: cover;
+    background-position: center;
+    border-radius: 20px;
+    box-shadow: 15px 15px 30px var(--shadow-color);
+    /* Add a subtle border/frame */
+    border: 5px solid var(--card-bg);
+}
+
+
+
+
+/* --- 5. THE RGB CARDS (Merged Logic) --- */
+.project-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 40px; /* Increased gap for glow space */
+    width: 100%;
+    max-width: 1200px;
+    margin-top: 40px;
+    padding: 20px;
+}
+
+/* The RGB Card Style */
+.card {
+    /* Use flexible width instead of fixed 300px to fit grid */
+    width: 100%; 
+    min-height: 250px;
+    
+    background: var(--card-bg); /* Using variable for theme support */
+    padding: 2em;
+    text-align: center;
+    border-radius: 10px;
+    position: relative;
+    
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+/* The Rotating Border Logic */
+.card::after, .card::before {
+    content: '';
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-image: conic-gradient(from var(--angle), #ff4545, #00ff99, #006aff, #ff0095, #ff4545);
+    top: 50%;
+    left: 50%;
+    translate: -50% -50%;
+    z-index: -1; /* Behind the card content */
+    padding: 3px; /* Thickness of border */
+    border-radius: 10px;
+    animation: 7s spin linear infinite;
+}
+
+.card::before {
+    filter: blur(1.5rem);
+    opacity: 0.5;
+}
+
+@keyframes spin {
+    from { --angle: 0deg; }
+    to { --angle: 360deg; }
+}
+
+.card h3 {
+    color: var(--text-color);
+    margin-bottom: 15px;
+    font-size: 1.5rem;
+}
+.card p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+}
+
+
+
+
+
+
+
+
+/* --- 6. Education Timeline --- */
+.timeline-container {
+    max-width: 800px;
+    width: 100%;
+    padding: 20px;
+}
+.timeline-item {
+    margin-bottom: 30px;
+}
+.timeline-content {
+    align-items: flex-start;
+    text-align: left;
+    padding: 25px;
+}
+.timeline-content .date {
+    display: inline-block;
+    padding: 5px 10px;
+    background: var(--glass-bg);
+    color: var(--text-color);
+    border-radius: 20px;
+    font-size: 0.9rem;
+    margin-bottom: 15px;
+    font-weight: 600;
+}
+.timeline-content h3 { font-size: 1.5rem; margin-bottom: 5px; }
+.timeline-content p:nth-of-type(1) { font-weight: 600; color: var(--text-color); margin-bottom: 10px; }
+
+/* --- 7. About Text & Footer --- */
+/* (Same as before) */
+.about-section { overflow: hidden; padding: 0; }
+.giant-text {
+    font-size: 15vw;
+    line-height: 0.85;
+    font-weight: 800;
+    color: var(--text-color);
+    letter-spacing: -5px;
+    text-transform: uppercase;
+    opacity: 0.95;
+    margin: 60px 0;
+    text-align: center;
+}
+.about-content { max-width: 600px; text-align: center; padding: 0 20px 60px; }
+.about-content p { font-size: 1.2rem; color: var(--text-secondary); margin-bottom: 40px; }
+.stats-row { display: flex; justify-content: space-around; width: 100%; }
+.stat h3 { font-size: 2.5rem; color: var(--text-color); }
+.stat span { color: var(--text-secondary); text-transform: uppercase; letter-spacing: 1px; }
+
+.footer-modern {
+    background-color: var(--bg-color);
+    padding: 80px 5vw 40px;
+    align-items: flex-start;
+    justify-content: space-between;
+    min-height: 60vh;
+}
+.footer-top { display: flex; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 40px; }
+.footer-headline h3 { font-size: 2rem; color: var(--text-color); }
+.footer-columns { display: flex; gap: 80px; }
+.f-col { display: flex; flex-direction: column; gap: 16px; }
+.f-col h4 { color: var(--text-color); margin-bottom: 8px; }
+.f-col a { color: var(--text-secondary); text-decoration: none; }
+.f-col a:hover { color: var(--text-color); }
+.footer-bottom { width: 100%; display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; margin-top: 60px;}
+.footer-logo h2 { color: var(--text-secondary); }
+.footer-legal { display: flex; gap: 24px; }
+.footer-legal a { color: var(--text-secondary); text-decoration: none; }
+
+/* --- 8. SCROLL ANIMATION --- */
+@keyframes appear {
+    from { opacity: 0; transform: translateY(100px); }
+    to { opacity: 1; transform: translateY(0px); }
+}
+.block {
+    animation: appear linear;
+    animation-timeline: view();
+    animation-range: entry 0% cover 40%;
+}
+
+/* --- Mobile Response --- */
+@media (max-width: 900px) {
+    .hero-section-split { flex-direction: column-reverse; text-align: center; padding-top: 120px; }
+    .hero-content-left { align-items: center; display: flex; flex-direction: column; }
+    .profile-photo-container { width: 280px; height: 320px; }
+    .hero-content-left .greeting h1 { font-size: 3rem; }
+    .nav-track { padding: 0 15px; gap: 6px; }
+    .dot { width: 10px; }
+    .dot.active { width: 70px; }
+    .dot .label { font-size: 11px; }
+}
+@media (max-width: 768px) {
+    .giant-text { font-size: 18vw; }
+    .footer-top, .footer-bottom { flex-direction: column; gap: 30px; }
+}
+
+/* --- CONTAINER --- */
+.slider-container {
+    position: relative;
+    width: 700px;
+    height: 400px;
+    /* Changed from 500000px to 1000px for better 3D depth */
+    perspective: 5000px; 
+    cursor: grab;
+    /* Centering logic (optional, depending on your layout) */
+    margin: 10px auto; 
+}
+
+.slider-container:active {
+    cursor: grabbing;
+}
+
+/* --- THE ROTATING ENGINE --- */
+.slider {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    transform-style: preserve-3d;
+    /* REMOVED: animation: spinSlider... */
+    /* REMOVED: transition... (JS handles the smoothness now) */
+}
+
+/* --- THE CARDS --- */
+.slide {
+    position: absolute;
+    width: 60%;
+    height: 80%;
+    left: 20%; 
+    top: 10%;
+    border-radius: 15px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
+    -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
+    background: white; /* Fallback if image fails */
+    background: #ffffff; 
+    
+    /* Center the logo nicely */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 20px; /* Give the logos some breathing room */
+}
+
+.slide img {
+    width: 100%;
+    height: auto;
+    object-fit: contain;
+    mix-blend-mode: multiply; /* Kills any slight off-white borders */
+    pointer-events: none; /* Prevents image dragging issues */
+}
+
+/* --- POSITIONS --- */
+.slide:nth-child(1) { transform: rotateY(0deg) translateZ(400px); }
+.slide:nth-child(2) { transform: rotateY(90deg) translateZ(400px); }
+.slide:nth-child(3) { transform: rotateY(180deg) translateZ(400px); }
+.slide:nth-child(4) { transform: rotateY(270deg) translateZ(400px); }
