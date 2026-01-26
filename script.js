@@ -212,3 +212,48 @@ const zigzagItems = document.querySelectorAll('.zigzag-item');
 zigzagItems.forEach(item => {
     zigzagObserver.observe(item);
 });
+
+
+
+
+/* --- SMOOTH FLUID SCROLL FUNCTION --- */
+function scrollToSection(sectionIndex) {
+    const targetSection = document.getElementById('section-' + sectionIndex);
+    
+    if (!targetSection) return;
+
+    // 1. SETTINGS
+    const duration = 2000; // Time in milliseconds (2 seconds) - Increase for slower scroll
+    const startPosition = window.pageYOffset;
+    const targetPosition = targetSection.getBoundingClientRect().top + startPosition;
+    const distance = targetPosition - startPosition;
+    let startTime = null;
+
+    // 2. THE EASING FUNCTION (easeInOutCubic)
+    // This math makes it start slow, speed up, then slow down gently
+    function ease(t, b, c, d) {
+        t /= d / 2;
+        if (t < 1) return c / 2 * t * t * t + b;
+        t -= 2;
+        return c / 2 * (t * t * t + 2) + b;
+    }
+
+    // 3. THE ANIMATION LOOP
+    function animation(currentTime) {
+        if (startTime === null) startTime = currentTime;
+        const timeElapsed = currentTime - startTime;
+        
+        // Calculate next position
+        const run = ease(timeElapsed, startPosition, distance, duration);
+        
+        window.scrollTo(0, run);
+
+        // Keep animating until time is up
+        if (timeElapsed < duration) {
+            requestAnimationFrame(animation);
+        }
+    }
+
+    // Start the animation
+    requestAnimationFrame(animation);
+}
