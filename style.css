@@ -474,3 +474,91 @@ section {
 .slide:nth-child(2) { transform: rotateY(90deg) translateZ(400px); }
 .slide:nth-child(3) { transform: rotateY(180deg) translateZ(400px); }
 .slide:nth-child(4) { transform: rotateY(270deg) translateZ(400px); }
+
+
+
+/* --- INFINITE CAROUSEL CONTAINER --- */
+.carousel-container {
+    width: 100%;
+    max-width: 1200px; /* Adjust width as needed */
+    display: flex;
+    flex-direction: column;
+    gap: 30px; /* Space between the rows */
+    padding: 20px 0;
+    margin: 0 auto; /* Center the container */
+    
+    /* Fade effect on left and right edges */
+    mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+    -webkit-mask-image: linear-gradient(to right, transparent, black 15%, black 85%, transparent);
+}
+
+.carousel-row {
+    display: flex;
+    width: 100%;
+    overflow: hidden;
+    position: relative;
+}
+
+.carousel-track {
+    display: flex;
+    width: max-content;
+    gap: 50px; /* Space between individual logos */
+    animation: scroll 35s linear infinite;
+}
+
+/* --- LOGO COLOR LOGIC (THEME AWARE) --- */
+.carousel-track img {
+    height: 65px; 
+    width: auto; 
+    object-fit: contain;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+    cursor: pointer;
+    
+    /* DEFAULT (DARK MODE): Turn logos into White Silhouettes */
+    /* 1. brightness(0) makes it black. 2. invert(1) makes it white. */
+    filter: brightness(0) invert(1); 
+    opacity: 0.6; 
+}
+
+/* LIGHT MODE OVERRIDE */
+/* When body has data-theme="light", turn logos into Black Silhouettes */
+[data-theme="light"] .carousel-track img {
+    filter: brightness(0); /* Just pure black */
+    opacity: 0.6;
+}
+
+/* HOVER EFFECT (Works for both modes) */
+.carousel-track img:hover {
+    opacity: 1;
+    transform: scale(1.15);
+}
+
+/* --- ANIMATIONS --- */
+@keyframes scroll {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+}
+
+@keyframes scroll-reverse {
+    0% { transform: translateX(-50%); }
+    100% { transform: translateX(0); }
+}
+
+/* Row Directions & Speeds */
+.carousel-row:nth-child(1) .carousel-track {
+    animation-name: scroll;
+    animation-duration: 45s;
+}
+.carousel-row:nth-child(2) .carousel-track {
+    animation-name: scroll-reverse;
+    animation-duration: 35s;
+}
+.carousel-row:nth-child(3) .carousel-track {
+    animation-name: scroll;
+    animation-duration: 25s;
+}
+
+/* Pause animation on hover */
+.carousel-track:hover {
+    animation-play-state: paused;
+}

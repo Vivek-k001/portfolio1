@@ -136,3 +136,61 @@ document.addEventListener('DOMContentLoaded', () => {
         velocity += scrollForce;
     }, { passive: false });
 });
+
+
+
+
+
+
+/* --- INFINITE CAROUSEL GENERATOR --- */
+
+// 1. Array of your image filenames
+const logoFiles = [
+    "ai logo.png", "c logo.png", "css logo.png", "docker-logo.png",
+    "flutter logo.png", "html logo.png", "java logo.png", "javascript logo.png",
+    "ml logo.png", "n8n-logo.png", "php logo.png", "python logo.png",
+    "react logo.png", "sql logo.png", "svelte-logo.png", "typescript-logo.png"
+];
+
+const folderPath = "logo/"; // Ensure this matches your folder name
+const rowsCount = 3;        // Number of rows
+
+function createCarousel() {
+    const carouselContainer = document.getElementById('carouselContainer');
+    
+    // Safety check: if container doesn't exist, stop (prevents errors on other pages)
+    if (!carouselContainer) return;
+
+    // Sanitize filenames (handle spaces)
+    const safeLogos = logoFiles.map(name => encodeURIComponent(name).replace(/%20/g, " "));
+
+    for (let i = 0; i < rowsCount; i++) {
+        const row = document.createElement('div');
+        row.className = 'carousel-row';
+        
+        const track = document.createElement('div');
+        track.className = 'carousel-track';
+
+        // Duplicate the list to create the infinite loop effect
+        // (Original + Duplicate = seamless scrolling)
+        let infiniteList = [...safeLogos, ...safeLogos];
+
+        // Optional: Shift the starting point of rows 2 and 3 so they don't look identical
+        if (i === 1) infiniteList = infiniteList.slice(5).concat(infiniteList.slice(0, 5));
+        if (i === 2) infiniteList = infiniteList.slice(10).concat(infiniteList.slice(0, 10));
+
+        // Create Image Elements
+        infiniteList.forEach(fileName => {
+            const img = document.createElement('img');
+            img.src = `${folderPath}${fileName}`;
+            img.alt = decodeURIComponent(fileName); 
+            track.appendChild(img);
+        });
+
+        row.appendChild(track);
+        carouselContainer.appendChild(row);
+    }
+}
+
+// Initialize when the page loads
+document.addEventListener('DOMContentLoaded', createCarousel);
