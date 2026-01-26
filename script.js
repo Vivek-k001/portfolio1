@@ -194,3 +194,21 @@ function createCarousel() {
 
 // Initialize when the page loads
 document.addEventListener('DOMContentLoaded', createCarousel);
+
+
+
+/* --- ZIGZAG ANIMATION OBSERVER --- */
+const zigzagObserver = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+        if (entry.isIntersecting) {
+            entry.target.classList.add('visible');
+        }
+    });
+}, {
+    threshold: 0.2 
+});
+
+const zigzagItems = document.querySelectorAll('.zigzag-item');
+zigzagItems.forEach(item => {
+    zigzagObserver.observe(item);
+});

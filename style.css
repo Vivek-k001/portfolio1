@@ -544,19 +544,6 @@ section {
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
 /* --- INFINITE CAROUSEL CONTAINER --- */
 .carousel-container {
     width: 100%;
@@ -641,4 +628,232 @@ section {
 /* Pause animation on hover */
 .carousel-track:hover {
     animation-play-state: paused;
+}
+
+
+
+
+
+/* --- Social Icons Image Logic --- */
+
+/* DEFAULT (Dark Mode): 
+   The LeetCode SVG is natively black. 
+   We invert it to WHITE so it shows up on the dark background. */
+.social-img {
+    filter: invert(1);
+    transition: filter 0.3s ease;
+}
+
+/* LIGHT MODE OVERRIDE: 
+   When the body has data-theme="light", we turn the filter OFF (invert(0)).
+   This lets the logo go back to its original BLACK color. */
+[data-theme="light"] .social-img {
+    filter: invert(0);
+}
+
+/* HOVER EFFECT (Optional): 
+   If your social icons have a white hover background in dark mode, 
+   you might need to invert it back to black on hover. */
+.social-icon:hover .social-img {
+    filter: invert(0); 
+}
+
+/* In Light mode, hover usually turns dark, so we invert to white */
+[data-theme="light"] .social-icon:hover .social-img {
+    filter: invert(1);
+}
+
+
+
+
+/* --- ZIGZAG TIMELINE CONTAINER --- */
+.zigzag-timeline {
+    width: 100%;
+    max-width: 1100px;
+    margin: 0 auto;
+    position: relative;
+    padding: 20px 0;
+    display: flex;
+    flex-direction: column;
+    gap: 80px; 
+}
+
+/* CENTER LINE */
+.zigzag-timeline::before {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 0;
+    width: 4px;
+    height: 100%;
+    background: var(--glass-border);
+    transform: translateX(-50%);
+    z-index: 0;
+    border-radius: 2px;
+}
+
+/* --- ITEM STRUCTURE --- */
+.zigzag-item {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    position: relative;
+    z-index: 1;
+}
+
+/* TEXT CONTENT BOX */
+.zigzag-content {
+    width: 45%; 
+    padding: 30px;
+    background: var(--card-bg); 
+    border-radius: 20px;
+    border: 1px solid var(--glass-border);
+    box-shadow: 0 10px 30px var(--shadow-color);
+    text-align: left;
+    
+    /* Animation Start State */
+    opacity: 0;
+    transition: all 1s ease-out;
+}
+
+.zigzag-content h3 {
+    color: var(--text-color);
+    margin: 10px 0 5px;
+    font-size: 1.4rem;
+}
+
+.zigzag-content h4 {
+    color: var(--text-secondary);
+    font-size: 1rem;
+    margin-bottom: 15px;
+    font-weight: 500;
+}
+
+.zigzag-content p {
+    color: var(--text-secondary);
+    line-height: 1.6;
+    font-size: 0.95rem;
+}
+
+.zigzag-date {
+    display: inline-block;
+    padding: 6px 14px;
+    background: var(--glass-bg);
+    color: var(--text-color);
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    margin-bottom: 5px;
+}
+
+/* IMAGE BOX */
+.zigzag-image {
+    width: 45%;
+    height: 250px; 
+    border-radius: 20px;
+    overflow: hidden;
+    border: 5px solid var(--card-bg);
+    box-shadow: 0 10px 30px var(--shadow-color);
+    
+    /* Animation Start State */
+    opacity: 0;
+    transition: all 1s ease-out;
+}
+
+.zigzag-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.5s ease;
+}
+
+.zigzag-image:hover img {
+    transform: scale(1.1);
+}
+
+/* --- ODD vs EVEN Logic --- */
+
+/* ODD: Text Left, Image Right */
+.zigzag-item:nth-child(odd) {
+    flex-direction: row;
+}
+.zigzag-item:nth-child(odd) .zigzag-content {
+    transform: translateX(-100px); 
+}
+.zigzag-item:nth-child(odd) .zigzag-image {
+    transform: translateX(100px); 
+}
+
+/* EVEN: Text Right, Image Left */
+.zigzag-item:nth-child(even) {
+    flex-direction: row-reverse;
+}
+.zigzag-item:nth-child(even) .zigzag-content {
+    transform: translateX(100px); 
+}
+.zigzag-item:nth-child(even) .zigzag-image {
+    transform: translateX(-100px); 
+}
+
+/* CENTRAL DOT */
+.zigzag-item::after {
+    content: '';
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    width: 20px;
+    height: 20px;
+    background: var(--text-color);
+    border: 4px solid var(--bg-color);
+    border-radius: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 2;
+    box-shadow: 0 0 10px var(--shadow-color);
+}
+
+/* --- ANIMATION ACTIVE STATE --- */
+.zigzag-item.visible .zigzag-content,
+.zigzag-item.visible .zigzag-image {
+    opacity: 1;
+    transform: translateX(0); 
+}
+
+/* --- MOBILE RESPONSIVENESS --- */
+@media (max-width: 768px) {
+    .zigzag-timeline::before { left: 20px; } 
+    
+    .zigzag-item {
+        flex-direction: column !important; 
+        align-items: flex-start;
+        padding-left: 50px; 
+    }
+    
+    .zigzag-content, .zigzag-image {
+        width: 100%; 
+        transform: translateY(50px); 
+    }
+    
+    .zigzag-image {
+        height: 200px;
+        margin-top: 20px;
+        order: -1; 
+    }
+    
+    .zigzag-item::after {
+        left: 20px; 
+    }
+    
+    /* Reset horizontal animations for vertical mobile view */
+    .zigzag-item:nth-child(odd) .zigzag-content,
+    .zigzag-item:nth-child(even) .zigzag-content,
+    .zigzag-item:nth-child(odd) .zigzag-image,
+    .zigzag-item:nth-child(even) .zigzag-image {
+        transform: translateY(50px);
+    }
+    
+    .zigzag-item.visible .zigzag-content,
+    .zigzag-item.visible .zigzag-image {
+        transform: translateY(0);
+    }
 }
