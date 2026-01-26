@@ -1037,3 +1037,16 @@ section,                /* Animates whole sections */
         font-size: 1.2rem; /* Make title slightly larger */
     }
 }
+
+
+
+
+/* Specific style for Dedo App image */
+.dedo-img {
+    width: 100%;         /* Forces image to fit the card's width */
+    height: 200px;       /* Sets a fixed height (adjust as needed) */
+    object-fit: cover;   /* Crops the image neatly if it's too tall/wide */
+    border-radius: 10px; /* Optional: adds rounded corners */
+    display: block;      /* Removes tiny gap below image */
+    margin: 10px 0;      /* Adds space above and below */
+}
