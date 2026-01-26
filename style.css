@@ -1050,3 +1050,21 @@ section,                /* Animates whole sections */
     display: block;      /* Removes tiny gap below image */
     margin: 10px 0;      /* Adds space above and below */
 }
+
+
+
+.gradient-text {
+    /* 1. Define the direction and colors (Blue -> Purple -> Pink) */
+    background: linear-gradient(90deg, #2563eb, #9333ea, #db2777);
+    
+    /* 2. Clip the background to the text shape */
+    -webkit-background-clip: text;
+    background-clip: text;
+    
+    /* 3. Make the actual text transparent so the background shows through */
+    -webkit-text-fill-color: transparent;
+    color: transparent;
+    
+    /* 4. Bold text makes the gradient much easier to see */
+    font-weight: 700; 
+}
