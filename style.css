@@ -410,7 +410,7 @@ section {
     .dot .label { font-size: 11px; }
 }
 @media (max-width: 768px) {
-    .giant-text { font-size: 18vw; }
+    .giant-text { font-size: 19vw; }
     .footer-top, .footer-bottom { flex-direction: column; gap: 30px; }
 }
 
