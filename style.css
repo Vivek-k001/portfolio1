@@ -857,3 +857,43 @@ section {
         transform: translateY(0);
     }
 }
+
+
+
+
+
+/* --- GLOBAL SCROLL ANIMATION --- */
+
+/* 1. Define the Animation */
+@keyframes universal-appear {
+    from {
+        opacity: 0;
+        transform: scale(0.8) translateY(50px); /* Slightly smaller & lower */
+    }
+    to {
+        opacity: 1;
+        transform: scale(1) translateY(0); /* Normal size & position */
+    }
+}
+
+/* 2. Apply to ALL Major Elements */
+/* Add any other class names here separated by commas */
+section,                /* Animates whole sections */
+.rgb-card .card             /* Your RGB cards */
+.timeline-item,         /* Your old timeline */
+.zigzag-item,           /* The new education zig-zag */
+.section-header,        /* Headers like "Education", "Projects" */
+.edu-btn,               /* Buttons */
+.social-icon,           /* Social links */
+.project-card           /* If you have project cards */
+{
+    animation-name: universal-appear;
+    animation-fill-mode: both;
+    
+    /* Triggers animation based on scroll position */
+    animation-timeline: view();
+    
+    /* Starts when top of element enters 10% of viewport */
+    /* Finishes when it covers 40% of the viewport */
+    animation-range: entry 10% cover 40%;
+}
