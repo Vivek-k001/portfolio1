@@ -414,66 +414,146 @@ section {
     .footer-top, .footer-bottom { flex-direction: column; gap: 30px; }
 }
 
-/* --- CONTAINER --- */
+
+
+
+
+
+
+/* --- 3D SLIDER (FULLY COMMENTED) --- */
+
 .slider-container {
     position: relative;
     width: 100%;
-    height: 400px;
-    /* Changed from 500000px to 1000px for better 3D depth */
-    perspective: 5000px; 
-    cursor: grab;
-    /* Centering logic (optional, depending on your layout) */
-    margin: 10px auto; 
+    
+    /* HEIGHT: The invisible box holding the slider. 
+       - If you INCREASE this (e.g., 600px), there is more vertical empty space on the page.
+       - If you DECREASE this (e.g., 200px), the 3D cards might overlap with content above/below. */
+    height: 400px; 
+    
+    /* PERSPECTIVE: How "3D" the scene looks. 
+       - LOWER (e.g., 500px) = Fish-eye lens effect. Objects distort heavily when rotating.
+       - HIGHER (e.g., 2000px) = Telephoto lens. Looks flatter/further away. 
+       - 1000px is the "sweet spot" for web 3D. */
+    perspective: 1000px;
+    
+    margin: 50px auto; /* Centers the container on the page */
+    
+    /* PRESERVE-3D: Crucial. Tells the browser children are 3D objects, not flat 2D layers. */
+    transform-style: preserve-3d;
+    
+    /* NOTE: We removed 'overflow: hidden' so the cards don't disappear when they spin close to the screen */
 }
 
-.slider-container:active {
-    cursor: grabbing;
-}
-
-/* --- THE ROTATING ENGINE --- */
 .slider {
     position: absolute;
     width: 100%;
     height: 100%;
-    transform-style: preserve-3d;
-    /* REMOVED: animation: spinSlider... */
-    /* REMOVED: transition... (JS handles the smoothness now) */
+    transform-style: preserve-3d; /* Passes the 3D effect down to the images */
 }
 
-/* --- THE CARDS --- */
 .slide {
     position: absolute;
-    width: 60%;
-    height: 80%;
-    left: 20%; 
-    top: 10%;
-    border-radius: 15px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
-    -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
-    background: white; /* Fallback if image fails */
-    background: #ffffff; 
     
-    /* Center the logo nicely */
+    /* --- SIZE SETTINGS (DESKTOP) --- */
+    /* WIDTH/HEIGHT: The actual size of the card.
+       - If you INCREASE width (e.g., 500px), they get wider but might hit each other (tangle) when spinning.
+       - If you DECREASE width (e.g., 100px), they become tiny thumbnails. */
+    width: 200px;   
+    height: 200px;  
+    
+    /* --- CENTERING MATH --- */
+    /* LEFT/TOP 50%: Moves the top-left corner of the card to the exact center of the container. */
+    left: 50%;
+    top: 50%;
+    
+    /* MARGINS: We shift the card BACK by half its size to truly center it.
+       - If width is 300px, margin-left MUST be -150px.
+       - If height is 200px, margin-top MUST be -100px.
+       - If you get these wrong, the slider will spin off-center (wobbly). */
+    margin-left: -100px; 
+    margin-top: -100px;  
+    
+    background: #ffffff;
+    border-radius: 15px;
+    box-shadow: 0 4px 15px rgba(0, 0, 0, 0.2);
     display: flex;
     align-items: center;
     justify-content: center;
-    padding: 20px; /* Give the logos some breathing room */
+    padding: 20px;
+    
+    /* REFLECTION: Adds the cool mirror effect below the card.
+       - The '10px' is the gap between card and reflection.
+       - The 'linear-gradient' controls the fade. */
+    -webkit-box-reflect: below 10px linear-gradient(transparent, transparent, rgba(0, 0, 0, 0.4));
 }
 
 .slide img {
     width: 100%;
-    height: auto;
-    object-fit: contain;
-    mix-blend-mode: multiply; /* Kills any slight off-white borders */
-    pointer-events: none; /* Prevents image dragging issues */
+    height: 100%;
+    object-fit: contain; /* Ensures the logo fits inside without stretching/distortion */
+    mix-blend-mode: multiply; /* Helps white backgrounds blend better (optional) */
+    pointer-events: none; /* Prevents dragging the image itself instead of the slider */
 }
 
-/* --- POSITIONS --- */
+/* --- POSITIONING (THE DISTANCE FROM CENTER) --- */
+/* TRANSLATE Z: This pushes the cards OUTWARD from the center point.
+   - If you INCREASE Z (e.g., 600px): The circle gets bigger. Cards are further apart.
+   - If you DECREASE Z (e.g., 200px): The circle gets tighter. Cards might crash into each other.
+   
+   RULE OF THUMB: TranslateZ should be slightly larger than the card width (Width 300px -> Z 400px is safe). */
+
 .slide:nth-child(1) { transform: rotateY(0deg) translateZ(400px); }
 .slide:nth-child(2) { transform: rotateY(90deg) translateZ(400px); }
 .slide:nth-child(3) { transform: rotateY(180deg) translateZ(400px); }
 .slide:nth-child(4) { transform: rotateY(270deg) translateZ(400px); }
+
+/* --- MOBILE RESPONSE --- */
+@media (max-width: 768px) {
+    .slider-container {
+        /* Decrease container height on phones to save space */
+        height: 300px; 
+    }
+    
+    .slide {
+        /* Make cards smaller for mobile screens */
+        width: 180px; 
+        height: 140px;
+        
+        /* UPDATE CENTERING MATH for new size:
+           - Half of 180 is 90.
+           - Half of 140 is 70. */
+        margin-left: -90px; 
+        margin-top: -70px;  
+    }
+
+    /* MOBILE Z-DISTANCE:
+       - Since cards are smaller (180px), we can bring them closer (250px).
+       - If you keep this at 400px on mobile, they will look very tiny and far away. */
+    .slide:nth-child(1) { transform: rotateY(0deg) translateZ(250px); }
+    .slide:nth-child(2) { transform: rotateY(90deg) translateZ(250px); }
+    .slide:nth-child(3) { transform: rotateY(180deg) translateZ(250px); }
+    .slide:nth-child(4) { transform: rotateY(270deg) translateZ(250px); }
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
