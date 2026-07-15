@@ -5,6 +5,18 @@
     inherits: false;
 }
 
+@property --hero-start {
+    syntax: "<color>";
+    initial-value: #2a2a2a;
+    inherits: true;
+}
+
+@property --hero-end {
+    syntax: "<color>";
+    initial-value: #0b0d15;
+    inherits: true;
+}
+
 :root {
     /* DARK THEME (Default) */
     --bg-color: #0b0d15;
@@ -17,7 +29,26 @@
     --dot-inactive: rgba(255, 255, 255, 0.2);
     --dot-active-bg: #ffffff;
     --dot-text: #000000;
-    --hero-gradient: radial-gradient(circle at 50% 50%, #2a2a2a 0%, #0b0d15 60%);
+    --hero-start: #2a2a2a;
+    --hero-end: #0b0d15;
+    --hero-gradient: radial-gradient(ellipse 65% 55% at 50% 50%, var(--hero-start) 0%, var(--hero-end) 70%);
+    --shadow-color: rgba(0, 0, 0, 0.5);
+}
+
+[data-theme="dark"] {
+    --bg-color: #0b0d15;
+    --text-color: #ffffff;
+    --text-secondary: #a2a5b3;
+    --card-bg: #1c1f2b;
+    --glass-bg: rgba(80, 80, 80, 0.25);
+    --glass-border: rgba(255, 255, 255, 0.15);
+    --nav-track: rgba(0, 0, 0, 0.2);
+    --dot-inactive: rgba(255, 255, 255, 0.2);
+    --dot-active-bg: #ffffff;
+    --dot-text: #000000;
+    --hero-start: #2a2a2a;
+    --hero-end: #0b0d15;
+    --hero-gradient: radial-gradient(ellipse 65% 55% at 50% 50%, var(--hero-start) 0%, var(--hero-end) 70%);
     --shadow-color: rgba(0, 0, 0, 0.5);
 }
 
@@ -33,7 +64,9 @@
     --dot-inactive: rgba(0, 0, 0, 0.2);
     --dot-active-bg: #000000;
     --dot-text: #ffffff;
-    --hero-gradient: radial-gradient(circle at 50% 50%, #ffffff 0%, #e5e5ea 80%);
+    --hero-start: #ffffff;
+    --hero-end: #f2f2f7;
+    --hero-gradient: radial-gradient(ellipse 65% 55% at 50% 50%, var(--hero-start) 0%, var(--hero-end) 70%);
     --shadow-color: rgba(0, 0, 0, 0.1);
 }
 
@@ -49,7 +82,7 @@ body {
     font-family: 'Poppins', -apple-system, sans-serif;
     scroll-behavior: smooth;
     overflow-x: hidden;
-    transition: background-color 0.5s ease, color 0.5s ease;
+    transition: background-color 0.5s ease, color 0.5s ease, --hero-start 0.5s ease, --hero-end 0.5s ease;
 }
 
 /* --- 2. Theme Toggle --- */
@@ -159,10 +192,24 @@ section {
     background: var(--hero-gradient);
     padding: 140px 5% 60px;
     gap: 40px;
+    transition: --hero-start 0.5s ease, --hero-end 0.5s ease;
 }
 
 .hero-content-left {
     max-width: 500px;
+}
+
+@keyframes blurIn {
+    0% {
+        opacity: 0;
+        filter: blur(4px);
+        transform: translateY(20px);
+    }
+    100% {
+        opacity: 1;
+        filter: blur(0px);
+        transform: translateY(0);
+    }
 }
 
 .hero-content-left .greeting h1 {
@@ -171,6 +218,12 @@ section {
     line-height: 1.1;
     color: var(--text-color);
     margin: 0;
+    opacity: 0;
+    animation: blurIn 0.8s cubic-bezier(0.2, 0.8, 0.2, 1) forwards;
+}
+
+.hero-content-left .greeting h1:nth-child(2) {
+    animation-delay: 0.15s;
 }
 
 .hero-content-left h2 {
@@ -196,10 +249,14 @@ section {
     border-radius: 30px;
     font-weight: 600;
     cursor: pointer;
-    transition: transform 0.2s;
+    transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1);
     box-shadow: 0 4px 15px var(--shadow-color);
 }
-.edu-btn:hover { transform: translateY(-3px); }
+.edu-btn:hover { 
+    transform: translateY(-4px) scale(1.05);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+    opacity: 0.9;
+}
 
 .social-icons {
     display: flex;
@@ -374,6 +431,7 @@ section {
     align-items: flex-start;
     justify-content: space-between;
     min-height: 60vh;
+    transition: background-color 0.5s ease, color 0.5s ease;
 }
 .footer-top { display: flex; justify-content: space-between; width: 100%; flex-wrap: wrap; gap: 40px; }
 .footer-headline h3 { font-size: 2rem; color: var(--text-color); }
@@ -382,10 +440,24 @@ section {
 .f-col h4 { color: var(--text-color); margin-bottom: 8px; }
 .f-col a { color: var(--text-secondary); text-decoration: none; }
 .f-col a:hover { color: var(--text-color); }
-.footer-bottom { width: 100%; display: flex; justify-content: space-between; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; margin-top: 60px;}
-.footer-logo h2 { color: var(--text-secondary); }
+.footer-bottom { width: 100%; display: flex; justify-content: center; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 30px; margin-top: 60px;}
+.footer-logo { width: 100%; }
+.footer-logo h2 { color: var(--text-secondary); text-align: center; }
 .footer-legal { display: flex; gap: 24px; }
 .footer-legal a { color: var(--text-secondary); text-decoration: none; }
+
+.legal-text {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 0.75rem;
+    color: var(--text-secondary);
+    line-height: 1.5;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    text-align: center;
+    margin: 0 auto;
+    max-width: 800px;
+}
 
 /* --- 8. SCROLL ANIMATION --- */
 @keyframes appear {
@@ -879,12 +951,10 @@ section {
 /* 2. Apply to ALL Major Elements */
 /* Add any other class names here separated by commas */
 section,                /* Animates whole sections */
-.rgb-card .card             /* Your RGB cards */
+.rgb-card .card,        /* Your RGB cards */
 .timeline-item,         /* Your old timeline */
 .zigzag-item,           /* The new education zig-zag */
 .section-header,        /* Headers like "Education", "Projects" */
-.edu-btn,               /* Buttons */
-.social-icon,           /* Social links */
 .project-card           /* If you have project cards */
 {
     animation-name: universal-appear;
@@ -1067,4 +1137,8 @@ section,                /* Animates whole sections */
     
     /* 4. Bold text makes the gradient much easier to see */
     font-weight: 700; 
+    
+    /* Fix cut-off gradient */
+    padding-bottom: 2px;
+    display: inline-block;
 }
